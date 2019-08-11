@@ -273,6 +273,7 @@
         android:drawableEnd="@drawable/ic_baseline_play_arrow_24px"
         android:text="@string/main_screen_start"
         android:textSize="30sp"
+        android:onClick="onClickStart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

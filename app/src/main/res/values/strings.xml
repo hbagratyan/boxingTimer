@@ -6,4 +6,15 @@
     <string name="main_screen_preparation">Preparation (5sec)</string>
     <string name="main_screen_additional">Other Settings</string>
     <string name="main_screen_start">Start</string>
+    <string name="settings_sound">Sound</string>
+    <string name="settings_vibration">Vibration</string>
+    <string name="settings_warning">10 sec warning</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_rate">Rate this app</string>
+    <string name="settings_about">About</string>
+    <string name="settings_back">Back</string>
+    <string-array name="language_options">
+        <item>English</item>
+        <item>Русский</item>
+    </string-array>
 </resources>
