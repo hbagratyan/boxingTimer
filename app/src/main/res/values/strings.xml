@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">BoxingTimer</string>
+    <string name="main_screen_round">Round (30sec)</string>
+    <string name="main_screen_rest">Rest (30sec)</string>
+    <string name="main_screen_rounds">Rounds</string>
+    <string name="main_screen_preparation">Preparation (5sec)</string>
+    <string name="main_screen_additional">Other Settings</string>
+    <string name="main_screen_start">Start</string>
 </resources>

@@ -7,12 +7,274 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/roundLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/main_screen_round"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roundTextView" />
+
+    <TextView
+        android:id="@+id/roundTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:text="3:00"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnAddRoundSecs"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/roundcorner"
+        android:scaleType="fitXY"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roundTextView"
+        app:srcCompat="@drawable/ic_baseline_add_circle_outline_24px" />
+
+    <ImageButton
+        android:id="@+id/btnRemoveRoundSecs"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/roundcorner"
+        android:scaleType="fitXY"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddRoundSecs"
+        app:layout_constraintTop_toBottomOf="@+id/roundTextView"
+        app:srcCompat="@drawable/ic_baseline_remove_circle_outline_24px" />
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="395dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roundLabel" />
+
+    <TextView
+        android:id="@+id/restLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/main_screen_rest"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restTextView" />
+
+    <TextView
+        android:id="@+id/restTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="1:00"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider1" />
+
+    <ImageButton
+        android:id="@+id/btnRemoveRestSecs"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/roundcorner"
+        android:scaleType="fitXY"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddRestSecs"
+        app:layout_constraintTop_toBottomOf="@+id/restTextView"
+        app:srcCompat="@drawable/ic_baseline_remove_circle_outline_24px" />
+
+    <ImageButton
+        android:id="@+id/btnAddRestSecs"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/roundcorner"
+        android:scaleType="fitXY"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restTextView"
+        app:srcCompat="@drawable/ic_baseline_add_circle_outline_24px" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="395dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restLabel" />
+
+    <TextView
+        android:id="@+id/roundsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/main_screen_rounds"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roundsTextView" />
+
+    <TextView
+        android:id="@+id/roundsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="5"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+    <ImageButton
+        android:id="@+id/btnRemoveRound"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/roundcorner"
+        android:scaleType="fitXY"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddRound"
+        app:layout_constraintTop_toBottomOf="@+id/roundsTextView"
+        app:srcCompat="@drawable/ic_baseline_remove_circle_outline_24px" />
+
+    <ImageButton
+        android:id="@+id/btnAddRound"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/roundcorner"
+        android:scaleType="fitXY"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roundsTextView"
+        app:srcCompat="@drawable/ic_baseline_add_circle_outline_24px" />
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="395dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/roundsLabel" />
+
+    <TextView
+        android:id="@+id/preparationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/main_screen_preparation"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/preparationTextView" />
+
+    <TextView
+        android:id="@+id/preparationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="10sec"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+    <ImageButton
+        android:id="@+id/btnRemovePreparationSecs"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/roundcorner"
+        android:scaleType="fitXY"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddPreparationSecs"
+        app:layout_constraintTop_toBottomOf="@+id/preparationTextView"
+        app:srcCompat="@drawable/ic_baseline_remove_circle_outline_24px" />
+
+    <ImageButton
+        android:id="@+id/btnAddPreparationSecs"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/roundcorner"
+        android:scaleType="fitXY"
+        app:layout_constraintDimensionRatio="w,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/preparationTextView"
+        app:srcCompat="@drawable/ic_baseline_add_circle_outline_24px" />
+
+    <Button
+        android:id="@+id/buttonSettings"
+        android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="onClickOpenSettings"
+        android:drawableRight="@drawable/ic_baseline_settings_20px"
+        android:text="@string/main_screen_additional"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonStart"
+        android:layout_width="match_parent"
+        android:layout_height="93dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:drawableEnd="@drawable/ic_baseline_play_arrow_24px"
+        android:text="@string/main_screen_start"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
