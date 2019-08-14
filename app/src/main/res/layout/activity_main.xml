@@ -246,22 +246,40 @@
         app:layout_constraintTop_toBottomOf="@+id/preparationTextView"
         app:srcCompat="@drawable/ic_baseline_add_circle_outline_24px" />
 
-    <Button
-        android:id="@+id/buttonSettings"
-        android:layout_width="match_parent"
-        android:layout_height="77dp"
-        android:layout_marginStart="8dp"
+    <ImageButton
+        android:id="@+id/btnMainSave"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:onClick="onClickOpenSettings"
-        android:drawableRight="@drawable/ic_baseline_settings_20px"
-        android:text="@string/main_screen_additional"
-        android:textAlignment="center"
-        android:textAllCaps="true"
+        android:background="@drawable/roundcorner"
+        android:scaleType="fitXY"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/buttonStart"
+        app:layout_constraintEnd_toStartOf="@+id/btnMainRestore"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/preparationLabel"
+        app:srcCompat="@drawable/ic_baseline_save_24px" />
+
+    <ImageButton
+        android:id="@+id/buttonSettings"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/roundcorner"
+        android:scaleType="fitXY"
+        android:textSize="24sp"
+        android:onClick="onClickOpenSettings"
+        app:layout_constraintBottom_toTopOf="@+id/buttonStart"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/btnMainRestore"
+        app:layout_constraintTop_toBottomOf="@+id/preparationLabel"
+        app:srcCompat="@drawable/ic_baseline_settings_20px" />
 
     <Button
         android:id="@+id/buttonStart"
@@ -271,11 +289,27 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:drawableEnd="@drawable/ic_baseline_play_arrow_24px"
+        android:onClick="onClickStart"
         android:text="@string/main_screen_start"
         android:textSize="30sp"
-        android:onClick="onClickStart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageButton
+        android:id="@+id/btnMainRestore"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/roundcorner"
+        android:scaleType="fitXY"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/preparationLabel"
+        app:srcCompat="@drawable/ic_baseline_refresh_24px" />
 </android.support.constraint.ConstraintLayout>
