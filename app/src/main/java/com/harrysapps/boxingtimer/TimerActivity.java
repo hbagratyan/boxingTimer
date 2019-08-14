@@ -16,7 +16,7 @@ import java.util.Locale;
 
 public class TimerActivity extends AppCompatActivity {
 
-    public int counter = DefaultValues.ROUND_TIME;
+    public int counter = MainActivity.roundTime;
     public boolean isRunning;
 
     @Override
