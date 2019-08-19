@@ -14,9 +14,9 @@ public class MainActivity extends AppCompatActivity {
 
     SharedPreferences sharedpreferences;
     public static int roundTime = DefaultValues.ROUND_TIME;
-    public int restTime = DefaultValues.REST_TIME;
-    public int rounds = DefaultValues.ROUNDS;
-    public int preparation = DefaultValues.PREPARATION;
+    public static int restTime = DefaultValues.REST_TIME;
+    public static int rounds = DefaultValues.ROUNDS;
+    public static int preparation = DefaultValues.PREPARATION;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickStart(View view) {
-        Intent intent = new Intent(this, TimerActivity.class);
+        Intent intent = new Intent(this, RoundTimerActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

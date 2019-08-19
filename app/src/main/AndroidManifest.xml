@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".TimerActivity"
+            android:name=".RoundTimerActivity"
+            android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".SettingsActivity"
@@ -26,4 +27,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>
