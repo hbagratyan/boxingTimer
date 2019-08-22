@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.ProgressBar;
 import android.widget.ToggleButton;
@@ -24,14 +25,12 @@ public class RoundTimerActivity extends AppCompatActivity {
     private int currentRound = 1;
     private int timerID;
     private MediaPlayer mp;
-    int stoppedAt = 0;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         TextView topTimerView = findViewById(R.id.timerTopLogo);
         ProgressBar progressBar = findViewById(R.id.progressBar);
         topTimerView.setText("Prepare to fight");
@@ -39,33 +38,10 @@ public class RoundTimerActivity extends AppCompatActivity {
         runCountDownTimer(preparationSecs);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (mp != null) mp.release();
-        running = false;
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (mp != null) {
-            mp.release();
-        }
-        running = false;
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mp != null) mp.release();
-    }
-
     public void playSound(int resource) {
         mp = MediaPlayer.create(this, resource);
-        mp.setLooping(false);
         mp.start();
-        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+         mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 if (mp != null) {
@@ -108,7 +84,10 @@ public class RoundTimerActivity extends AppCompatActivity {
         currentRound = 1;
         rounds = MainActivity.rounds;
         running = false;
-        if (mp != null) mp.release();
+        if (mp != null) {
+             mp.reset();
+             mp.release();
+        }
         Intent intent = new Intent(RoundTimerActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
@@ -131,23 +110,23 @@ public class RoundTimerActivity extends AppCompatActivity {
                 int secs = millisInFuture[0] / 1000 % 60;
                 String time = String.format(Locale.getDefault(),
                         "%02d:%02d", minutes, secs);
-
-                mainTimerView.setText(time);
+                if (running) mainTimerView.setText(time);
                 ProgressBar progressBar = findViewById(R.id.progressBar);
                 switch (timerID) {
                     case 1:
-                        progressBar.setProgress((millisInFuture[0]) * 100 / preparationSecs);
+                        if (running) progressBar.setProgress((millisInFuture[0]) * 100 / preparationSecs);
                         break;
                     case 2:
-                        progressBar.setProgress(millisInFuture[0] * 100 / roundTime);
+                        if (running) progressBar.setProgress(millisInFuture[0] * 100 / roundTime);
                         break;
                     case 3:
-                        progressBar.setProgress(millisInFuture[0] * 100 / restTime);
+                        if (running) progressBar.setProgress(millisInFuture[0] * 100 / restTime);
                         break;
                 }
                 if (running && millisInFuture[0] >= 1000) {
                     millisInFuture[0] -= 1000;
                 }
+
 
                 if (time.equals("00:05") && timerID == 1 | timerID == 3)
                     playSound(R.raw.flatline_sound);
@@ -164,7 +143,8 @@ public class RoundTimerActivity extends AppCompatActivity {
                             break;
                         case 2:
                             playSound(R.raw.ding_sound);
-                            if (currentRound == rounds) backToMainActivity();
+                            if (currentRound == rounds)
+                                backToMainActivity();
                             else {
                                 millisInFuture[0] = restTime;
                                 runRestTimer(millisInFuture[0]);
@@ -188,26 +168,17 @@ public class RoundTimerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (running) {
                     running = false;
-                    if (mp != null && mp.isPlaying()) {
-                        mp.pause();
-                        stoppedAt = mp.getCurrentPosition();
+                    if (mp != null) {
+                        mp.stop();
+                        mp.release();
+                        mp = null;
                     }
-                    millisInFuture[0] += 1000;
                 } else {
                     running = true;
-                    if (mp != null) {
-                        mp.seekTo(stoppedAt);
-                        mp.start();
-
-
-                    }
-
                 }
             }
         });
     }
-
-
 
     public void onClickBack(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(RoundTimerActivity.this);

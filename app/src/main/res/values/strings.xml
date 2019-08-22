@@ -1,26 +1,27 @@
 <resources>
+
     <string name="app_name">BoxingTimer</string>
+
     <string name="main_screen_round">Round (30sec)</string>
     <string name="main_screen_rest">Rest (30sec)</string>
     <string name="main_screen_rounds">Rounds</string>
     <string name="main_screen_preparation">Preparation (5sec)</string>
     <string name="main_screen_additional">Other Settings</string>
     <string name="main_screen_start">Start</string>
-    <string name="settings_sound">Sound</string>
-    <string name="settings_vibration">Vibration</string>
-    <string name="settings_warning">10 sec warning</string>
-    <string name="settings_language">Language</string>
-    <string name="settings_rate">Rate this app</string>
-    <string name="settings_about">About</string>
-    <string name="settings_back">Back</string>
-    <string name="btn_save_settings">Save settings</string>
-    <string name="btn_restore_settings">Restore defaults</string>
+
     <string name="exit_title">Do you really want to exit?</string>
     <string name="exit_message">The timer will stop</string>
     <string name="exit_negative_answer">No, stay here</string>
     <string name="exit_positive_answer">Yes, exit</string>
-    <string-array name="language_options">
-        <item>English</item>
-        <item>Русский</item>
-    </string-array>
+
+    <string name="save_title">Save this as default settings?</string>
+    <string name="save_message">It will be loaded on the next start</string>
+    <string name="save_negative_answer">Damn, no!</string>
+    <string name="save_positive_answer">Sure, my nigga</string>
+
+    <string name="reset_title">Reset settings to default?</string>
+    <string name="reset_message"> </string>
+    <string name="reset_negative_answer">Oui</string>
+    <string name="reset_positive_answer">Nein</string>
+
 </resources>
