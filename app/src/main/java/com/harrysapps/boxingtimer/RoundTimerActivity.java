@@ -2,11 +2,12 @@ package com.harrysapps.boxingtimer;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.ToggleButton;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,119 +16,198 @@ import java.util.Locale;
 
 public class RoundTimerActivity extends AppCompatActivity {
 
-    public int roundTime = MainActivity.roundTime;
-    public int rounds = MainActivity.rounds;
-    public boolean countdownTimerIsRunning = false;
-    public boolean timerFinished = false;
-    public static int currentRound = 1;
-    public int preparationSecs = MainActivity.preparation;
-    public int restTime = MainActivity.restTime;
-    int timerID;
-    CountDownTimer timer;
+    private int roundTime = MainActivity.roundTime;
+    private int rounds = MainActivity.rounds;
+    private int preparationSecs = MainActivity.preparation;
+    private int restTime = MainActivity.restTime;
+    private boolean running;
+    private int currentRound = 1;
+    private int timerID;
+    private MediaPlayer mp;
+    int stoppedAt = 0;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
-        runPreparationTimer();
-    }
-
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        timer.cancel();
-    }
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-        timer.cancel();
-    }
-
-    public void runPreparationTimer() {
-        timerID = 1;
         TextView topTimerView = findViewById(R.id.timerTopLogo);
+        ProgressBar progressBar = findViewById(R.id.progressBar);
         topTimerView.setText("Prepare to fight");
+        progressBar.setProgress(100);
         runCountDownTimer(preparationSecs);
     }
 
-    public void runMainTimer(int roundTime, int currentRound) {
-        timerID = 2;
-        TextView topTimerView = findViewById(R.id.timerTopLogo);
-        topTimerView.setText("Round " + Integer.toString(currentRound) + "/" + Integer.toString(rounds));
-        runCountDownTimer(roundTime);
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mp != null) mp.release();
+        running = false;
     }
 
-    public void runRestTimer(int nextRound) {
-        timerID = 3;
-        TextView topTimerView = findViewById(R.id.timerTopLogo);
-        topTimerView.setText("Rest after round " + Integer.toString(RoundTimerActivity.currentRound) + '/' + Integer.toString(rounds));
-        runCountDownTimer(restTime);
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mp != null) {
+            mp.release();
+        }
+        running = false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mp != null) mp.release();
     }
 
     public void playSound(int resource) {
-        MediaPlayer mp = MediaPlayer.create(this, resource);
+        mp = MediaPlayer.create(this, resource);
+        mp.setLooping(false);
         mp.start();
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                if (mp != null) {
+                    mp.stop();
+                    mp.release();
+                }
+            }
+        });
+    }
+
+    public void runRoundTimer(int roundTime) {
+        TextView topTimerView = findViewById(R.id.timerTopLogo);
+        TextView mainTimerView = findViewById(R.id.mainTimerView);
+        timerID = 2;
+        topTimerView.setText("Round " + Integer.toString(currentRound) + "/" + Integer.toString(rounds));
+        int minutes = (roundTime / 1000) / 60;
+        int secs = roundTime / 1000 % 60;
+        String time = String.format(Locale.getDefault(),
+                "%02d:%02d", minutes, secs);
+        mainTimerView.setText(time);
+    }
+
+
+    public void runRestTimer(int restTime) {
+        TextView topTimerView = findViewById(R.id.timerTopLogo);
+        TextView mainTimerView = findViewById(R.id.mainTimerView);
+        timerID = 3;
+        topTimerView.setText("Rest after round " + Integer.toString(currentRound) + '/' + Integer.toString(rounds));
+        int minutes = (restTime / 1000) / 60;
+        int secs = restTime / 1000 % 60;
+        String time = String.format(Locale.getDefault(),
+                "%02d:%02d", minutes, secs);
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+        progressBar.setProgress(100);
+        mainTimerView.setText(time);
     }
 
     public void backToMainActivity() {
         roundTime = MainActivity.roundTime;
         currentRound = 1;
         rounds = MainActivity.rounds;
+        running = false;
+        if (mp != null) mp.release();
         Intent intent = new Intent(RoundTimerActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }
 
-    public void runCountDownTimer(int millisecondsRemaining) {
+
+
+    public void runCountDownTimer(final int millisecondsRemaining) {
+        timerID = 1;
+        running = true;
         final int[] millisInFuture = {millisecondsRemaining}; /*It's a bit hacky way to access the
                                                                 variable from inner class */
         final TextView mainTimerView = findViewById(R.id.mainTimerView);
-        timer = new CountDownTimer(millisInFuture[0], 1000) {
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
             @Override
-            public void onTick(long millisUntilFinished) {
-                timerFinished = false;
-                countdownTimerIsRunning = true;
-                int minutes = (millisInFuture[0] / 60000);
+            public void run() {
+                int minutes = (millisInFuture[0] / 1000) / 60;
                 int secs = millisInFuture[0] / 1000 % 60;
-                String timeLeft = String.format(Locale.getDefault(), "%d:%02d", minutes, secs);
-                mainTimerView.setText(timeLeft);
-                if (timerID == 2 && millisInFuture[0] == 10000) playSound(R.raw.ten_sec_countdown);
-                if (timerID != 2 && millisInFuture[0] == 5000) playSound(R.raw.flatline_sound);
-                if (millisInFuture[0] > 0) millisInFuture[0] -= 1000;
-            }
+                String time = String.format(Locale.getDefault(),
+                        "%02d:%02d", minutes, secs);
 
-            @Override
-            public void onFinish() {
-                playSound(R.raw.ding_sound);
+                mainTimerView.setText(time);
+                ProgressBar progressBar = findViewById(R.id.progressBar);
                 switch (timerID) {
                     case 1:
-                        runMainTimer(roundTime, currentRound);
+                        progressBar.setProgress((millisInFuture[0]) * 100 / preparationSecs);
                         break;
                     case 2:
-                        if (currentRound == rounds) { backToMainActivity(); }
-                        else runRestTimer(currentRound);
+                        progressBar.setProgress(millisInFuture[0] * 100 / roundTime);
                         break;
                     case 3:
-                        runMainTimer(roundTime, ++currentRound);
+                        progressBar.setProgress(millisInFuture[0] * 100 / restTime);
                         break;
                 }
+                if (running && millisInFuture[0] >= 1000) {
+                    millisInFuture[0] -= 1000;
+                }
+
+                if (time.equals("00:05") && timerID == 1 | timerID == 3)
+                    playSound(R.raw.flatline_sound);
+                if (time.equals("00:10") && timerID == 2) playSound(R.raw.ten_sec_countdown);
+
+                handler.postDelayed(this, 1000);
+                if (time.equals("00:00")) {
+                    switch (timerID) {
+                        case 1:
+                            playSound(R.raw.ding_sound);
+                            millisInFuture[0] = roundTime;
+                            runRoundTimer(millisInFuture[0]);
+                            millisInFuture[0] -= 1000;
+                            break;
+                        case 2:
+                            playSound(R.raw.ding_sound);
+                            if (currentRound == rounds) backToMainActivity();
+                            else {
+                                millisInFuture[0] = restTime;
+                                runRestTimer(millisInFuture[0]);
+                                millisInFuture[0] -= 1000;
+                            }
+                            break;
+                        case 3:
+                            playSound(R.raw.ding_sound);
+                            currentRound++;
+                            millisInFuture[0] = roundTime;
+                            runRoundTimer(millisInFuture[0]);
+                            millisInFuture[0] -= 1000;
+                            break;
+                    }
+                }
             }
-        }.start();
+        });
         ToggleButton btnPauseResume = findViewById(R.id.btnPauseResume);
         btnPauseResume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (countdownTimerIsRunning) {
-                    timer.cancel();
+                if (running) {
+                    running = false;
+                    if (mp != null && mp.isPlaying()) {
+                        mp.pause();
+                        stoppedAt = mp.getCurrentPosition();
+                    }
                     millisInFuture[0] += 1000;
-                    countdownTimerIsRunning = false;
-                } else timer.start();
+                } else {
+                    running = true;
+                    if (mp != null) {
+                        mp.seekTo(stoppedAt);
+                        mp.start();
+
+
+                    }
+
+                }
             }
         });
     }
+
+
 
     public void onClickBack(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(RoundTimerActivity.this);

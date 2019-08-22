@@ -11,13 +11,11 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".RoundTimerActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".SettingsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:noHistory="true" />
         <activity
             android:name=".MainActivity"
+            android:noHistory="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
