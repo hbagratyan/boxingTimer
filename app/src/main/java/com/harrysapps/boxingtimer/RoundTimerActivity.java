@@ -25,6 +25,9 @@ public class RoundTimerActivity extends AppCompatActivity {
     private int currentRound = 1;
     private int timerID;
     private MediaPlayer mp;
+    final Handler handler = new Handler();
+    Runnable timer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +41,14 @@ public class RoundTimerActivity extends AppCompatActivity {
         runCountDownTimer(preparationSecs);
     }
 
+    protected void onDestroy() {
+        super.onDestroy();
+        //  releaseMP();
+    }
+
     public void playSound(int resource) {
-        mp = MediaPlayer.create(this, resource);
+        mp = MediaPlayer.create(RoundTimerActivity.this, resource);
         mp.start();
-         mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                if (mp != null) {
-                    mp.stop();
-                    mp.release();
-                }
-            }
-        });
     }
 
     public void runRoundTimer(int roundTime) {
@@ -84,16 +83,12 @@ public class RoundTimerActivity extends AppCompatActivity {
         currentRound = 1;
         rounds = MainActivity.rounds;
         running = false;
-        if (mp != null) {
-             mp.reset();
-             mp.release();
-        }
         Intent intent = new Intent(RoundTimerActivity.this, MainActivity.class);
+        handler.removeCallbacks(timer);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
         finish();
+        startActivity(intent);
     }
-
 
 
     public void runCountDownTimer(final int millisecondsRemaining) {
@@ -102,8 +97,8 @@ public class RoundTimerActivity extends AppCompatActivity {
         final int[] millisInFuture = {millisecondsRemaining}; /*It's a bit hacky way to access the
                                                                 variable from inner class */
         final TextView mainTimerView = findViewById(R.id.mainTimerView);
-        final Handler handler = new Handler();
-        handler.post(new Runnable() {
+
+        handler.post(timer = new Runnable() {
             @Override
             public void run() {
                 int minutes = (millisInFuture[0] / 1000) / 60;
@@ -114,7 +109,8 @@ public class RoundTimerActivity extends AppCompatActivity {
                 ProgressBar progressBar = findViewById(R.id.progressBar);
                 switch (timerID) {
                     case 1:
-                        if (running) progressBar.setProgress((millisInFuture[0]) * 100 / preparationSecs);
+                        if (running)
+                            progressBar.setProgress((millisInFuture[0]) * 100 / preparationSecs);
                         break;
                     case 2:
                         if (running) progressBar.setProgress(millisInFuture[0] * 100 / roundTime);
@@ -143,9 +139,9 @@ public class RoundTimerActivity extends AppCompatActivity {
                             break;
                         case 2:
                             playSound(R.raw.ding_sound);
-                            if (currentRound == rounds)
+                            if (currentRound == rounds) {
                                 backToMainActivity();
-                            else {
+                            } else {
                                 millisInFuture[0] = restTime;
                                 runRestTimer(millisInFuture[0]);
                                 millisInFuture[0] -= 1000;
@@ -169,15 +165,20 @@ public class RoundTimerActivity extends AppCompatActivity {
                 if (running) {
                     running = false;
                     if (mp != null) {
-                        mp.stop();
                         mp.release();
-                        mp = null;
                     }
                 } else {
                     running = true;
                 }
             }
         });
+    }
+
+    private void releaseMP() {
+        if (mp != null) {
+            mp.release();
+            mp = null;
+        }
     }
 
     public void onClickBack(View view) {
@@ -187,6 +188,7 @@ public class RoundTimerActivity extends AppCompatActivity {
                 .setCancelable(true)
                 .setPositiveButton(R.string.exit_positive_answer, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        releaseMP();
                         backToMainActivity();
                     }
                 })

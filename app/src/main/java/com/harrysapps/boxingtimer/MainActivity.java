@@ -1,6 +1,7 @@
 package com.harrysapps.boxingtimer;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -15,41 +17,59 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     SharedPreferences sharedpreferences;
-    public static int roundTime = DefaultValues.ROUND_TIME;
-    public static int restTime = DefaultValues.REST_TIME;
-    public static int rounds = DefaultValues.ROUNDS;
-    public static int preparation = DefaultValues.PREPARATION;
+    public static int roundTime;
+    public static int restTime;
+    public static int rounds;
+    public static int preparation;
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String RoundTime = "RoundTimeKey";
+    public static final String RestTime = "RestTimeKey";
+    public static final String Rounds = "RoundsKey";
+    public static final String Preparation = "PreparationKey";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView roundTextView = findViewById(R.id.roundTextView);
-        int minutesRound = (roundTime / 60000);
-        int secsRound = roundTime / 1000 % 60;
-        String roundTime = String.format(Locale.getDefault(), "%d:%02d", minutesRound, secsRound);
-        roundTextView.setText(roundTime);
+        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        roundTime = sharedpreferences.getInt(RoundTime, DefaultValues.ROUND_TIME);
+        restTime = sharedpreferences.getInt(RestTime, DefaultValues.REST_TIME);
+        rounds = sharedpreferences.getInt(Rounds, DefaultValues.ROUNDS);
+        preparation = sharedpreferences.getInt(Preparation, DefaultValues.PREPARATION);
 
-        TextView restTextView = findViewById(R.id.restTextView);
-        int minutesRest = (restTime / 60000);
-        int secsRest = restTime / 1000 % 60;
-        String restTime = String.format(Locale.getDefault(), "%d:%02d", minutesRest, secsRest);
-        restTextView.setText(restTime);
-
-        TextView roundsTextView = findViewById(R.id.roundsTextView);
-        roundsTextView.setText(Integer.toString(rounds));
-
-        TextView preparationTextView = findViewById(R.id.preparationTextView);
-        int secsPreparation = preparation / 1000 % 60;
-        String preparationTime = (secsPreparation + " seconds");
-        preparationTextView.setText(preparationTime);
+        setTextViews(roundTime, restTime, rounds, preparation);
     }
 
     public void onClickStart(View view) {
         Intent intent = new Intent(this, RoundTimerActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
+    }
+
+    public void setTextViews(int roundTimeInt, int restTimeInt, int roundsInt, int preparationInt) {
+        TextView roundTextView = findViewById(R.id.roundTextView);
+        int minutesRound = (roundTimeInt / 60000);
+        int secsRound = roundTimeInt / 1000 % 60;
+        String roundTime = String.format(Locale.getDefault(), "%d:%02d", minutesRound, secsRound);
+        roundTextView.setText(roundTime);
+
+        TextView restTextView = findViewById(R.id.restTextView);
+        int minutesRest = (restTimeInt / 60000);
+        int secsRest = restTimeInt / 1000 % 60;
+        String restTime = String.format(Locale.getDefault(), "%d:%02d", minutesRest, secsRest);
+        restTextView.setText(restTime);
+
+        TextView roundsTextView = findViewById(R.id.roundsTextView);
+        roundsTextView.setText(Integer.toString(roundsInt));
+
+        TextView preparationTextView = findViewById(R.id.preparationTextView);
+        int secsPreparation = preparationInt / 1000 % 60;
+        String preparationTime = (secsPreparation + " seconds");
+        preparationTextView.setText(preparationTime);
+
     }
 
     public void onClickAddX(View view) {
@@ -115,6 +135,18 @@ public class MainActivity extends AppCompatActivity {
                 .setCancelable(true)
                 .setPositiveButton(R.string.save_positive_answer, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+
+                        editor.putInt(RoundTime, roundTime);
+                        editor.putInt(RestTime, restTime);
+                        editor.putInt(Rounds, rounds);
+                        editor.putInt(Preparation, preparation);
+                        editor.apply();
+                        editor.commit();
+
+                        Toast.makeText(MainActivity.this, "Saved!", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton(R.string.save_negative_answer,
@@ -133,6 +165,16 @@ public class MainActivity extends AppCompatActivity {
                 .setCancelable(true)
                 .setPositiveButton(R.string.reset_positive_answer, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.putInt(RoundTime, DefaultValues.ROUND_TIME);
+                        editor.putInt(RestTime, DefaultValues.REST_TIME);
+                        editor.putInt(Rounds, DefaultValues.ROUNDS);;
+                        editor.putInt(Preparation, DefaultValues.PREPARATION);
+                        editor.apply();
+                        editor.commit();
+
+                        setTextViews(DefaultValues.ROUND_TIME, DefaultValues.REST_TIME, DefaultValues.ROUNDS, DefaultValues.PREPARATION);
                     }
                 })
                 .setNegativeButton(R.string.reset_negative_answer,

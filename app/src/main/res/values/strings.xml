@@ -21,7 +21,7 @@
 
     <string name="reset_title">Reset settings to default?</string>
     <string name="reset_message"> </string>
-    <string name="reset_negative_answer">Oui</string>
-    <string name="reset_positive_answer">Nein</string>
+    <string name="reset_negative_answer">No</string>
+    <string name="reset_positive_answer">Yes</string>
 
 </resources>
