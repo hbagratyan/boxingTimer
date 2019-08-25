@@ -1,12 +1,12 @@
 <resources>
 
     <string name="app_name">BoxingTimer</string>
+    <string name="preparation_label">GET READY</string>
 
-    <string name="main_screen_round">Round (30sec)</string>
-    <string name="main_screen_rest">Rest (30sec)</string>
-    <string name="main_screen_rounds">Rounds</string>
-    <string name="main_screen_preparation">Preparation (5sec)</string>
-    <string name="main_screen_additional">Other Settings</string>
+    <string name="main_screen_round">ROUND LENGTH</string>
+    <string name="main_screen_rest">REST</string>
+    <string name="main_screen_rounds">ROUNDS</string>
+    <string name="main_screen_preparation">PREPARATION</string>
     <string name="main_screen_start">Start</string>
 
     <string name="exit_title">Do you really want to exit?</string>
@@ -16,12 +16,15 @@
 
     <string name="save_title">Save this as default settings?</string>
     <string name="save_message">It will be loaded on the next start</string>
-    <string name="save_negative_answer">Damn, no!</string>
-    <string name="save_positive_answer">Sure, my nigga</string>
+    <string name="save_negative_answer">No</string>
+    <string name="save_positive_answer">Yes</string>
+    <string name="saved_toast">Settings were saved</string>
 
     <string name="reset_title">Reset settings to default?</string>
-    <string name="reset_message"> </string>
     <string name="reset_negative_answer">No</string>
     <string name="reset_positive_answer">Yes</string>
+    <string name="reset_toast">Settings were reset to default</string>
+
+    <string name="error_toast">Oops... Timer error</string>
 
 </resources>

@@ -16,7 +16,6 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    SharedPreferences sharedpreferences;
     public static int roundTime;
     public static int restTime;
     public static int rounds;
@@ -27,10 +26,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String Rounds = "RoundsKey";
     public static final String Preparation = "PreparationKey";
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -39,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
         restTime = sharedpreferences.getInt(RestTime, DefaultValues.REST_TIME);
         rounds = sharedpreferences.getInt(Rounds, DefaultValues.ROUNDS);
         preparation = sharedpreferences.getInt(Preparation, DefaultValues.PREPARATION);
+
+        TextView roundTextView = findViewById(R.id.roundTextView);
+        View root = roundTextView.getRootView();
+        root.setBackgroundColor(getResources().getColor(R.color.colorBackgroundMain));
+
 
         setTextViews(roundTime, restTime, rounds, preparation);
     }
@@ -146,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                         editor.apply();
                         editor.commit();
 
-                        Toast.makeText(MainActivity.this, "Saved!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, R.string.saved_toast, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton(R.string.save_negative_answer,
@@ -175,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
                         editor.commit();
 
                         setTextViews(DefaultValues.ROUND_TIME, DefaultValues.REST_TIME, DefaultValues.ROUNDS, DefaultValues.PREPARATION);
+                        Toast.makeText(MainActivity.this, R.string.reset_toast, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton(R.string.reset_negative_answer,
