@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     public static int restTime;
     public static int rounds;
     public static int preparation;
-    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String MyPREFERENCES = "MyPrefs";
     public static final String RoundTime = "RoundTimeKey";
     public static final String RestTime = "RestTimeKey";
     public static final String Rounds = "RoundsKey";
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             int secsRound = roundTime / 1000 % 60;
             String roundString = String.format(Locale.getDefault(), "%d:%02d", minutesRound, secsRound);
             roundTextView.setText(roundString);
-        } else if (view == findViewById(R.id.btnRemoveRestSecs)  && restTime > 30000) {
+        } else if (view == findViewById(R.id.btnRemoveRestSecs) && restTime > 30000) {
             restTime -= 30000;
             TextView restTextView = findViewById(R.id.restTextView);
             int minutesRound = (restTime / 60000);
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
             rounds -= 1;
             TextView roundsTextView = findViewById(R.id.roundsTextView);
             roundsTextView.setText(Integer.toString(rounds));
-        } else if (view == findViewById(R.id.btnRemovePreparationSecs) && preparation > 5000){
+        } else if (view == findViewById(R.id.btnRemovePreparationSecs) && preparation > 5000) {
             preparation -= 5000;
             TextView preparationTextView = findViewById(R.id.preparationTextView);
             int secsPreparation = preparation / 1000;
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void onClickSave(View v){
+    public void onClickSave(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(R.string.save_title)
                 .setMessage(R.string.save_message)
@@ -139,16 +139,13 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton(R.string.save_positive_answer, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-
                         SharedPreferences.Editor editor = sharedpreferences.edit();
-
                         editor.putInt(RoundTime, roundTime);
                         editor.putInt(RestTime, restTime);
                         editor.putInt(Rounds, rounds);
                         editor.putInt(Preparation, preparation);
                         editor.apply();
                         editor.commit();
-
                         Toast.makeText(MainActivity.this, R.string.saved_toast, Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -162,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
-    public void onClickReset(View v){
+    public void onClickReset(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(R.string.reset_title)
                 .setCancelable(true)
@@ -172,12 +169,16 @@ public class MainActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedpreferences.edit();
                         editor.putInt(RoundTime, DefaultValues.ROUND_TIME);
                         editor.putInt(RestTime, DefaultValues.REST_TIME);
-                        editor.putInt(Rounds, DefaultValues.ROUNDS);;
+                        editor.putInt(Rounds, DefaultValues.ROUNDS);
+                        ;
                         editor.putInt(Preparation, DefaultValues.PREPARATION);
                         editor.apply();
                         editor.commit();
-
-                        setTextViews(DefaultValues.ROUND_TIME, DefaultValues.REST_TIME, DefaultValues.ROUNDS, DefaultValues.PREPARATION);
+                        roundTime = DefaultValues.ROUND_TIME;
+                        restTime = DefaultValues.REST_TIME;
+                        rounds = DefaultValues.ROUNDS;
+                        preparation = DefaultValues.PREPARATION;
+                        setTextViews(roundTime, restTime, rounds, preparation);
                         Toast.makeText(MainActivity.this, R.string.reset_toast, Toast.LENGTH_SHORT).show();
                     }
                 })
