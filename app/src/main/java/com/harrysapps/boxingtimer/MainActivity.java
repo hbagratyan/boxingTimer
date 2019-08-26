@@ -170,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
                         editor.putInt(RoundTime, DefaultValues.ROUND_TIME);
                         editor.putInt(RestTime, DefaultValues.REST_TIME);
                         editor.putInt(Rounds, DefaultValues.ROUNDS);
-                        ;
                         editor.putInt(Preparation, DefaultValues.PREPARATION);
                         editor.apply();
                         editor.commit();

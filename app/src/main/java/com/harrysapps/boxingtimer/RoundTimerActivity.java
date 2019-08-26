@@ -35,8 +35,8 @@ public class RoundTimerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timer);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         topTimerView = findViewById(R.id.timerTopLogo);
-        ProgressBar progressBar = findViewById(R.id.progressBar);
         topTimerView.setText(R.string.preparation_label);
+        ProgressBar progressBar = findViewById(R.id.progressBar);
         View root = progressBar.getRootView();
         root.setBackgroundColor(getResources().getColor(R.color.colorBackgroundRed));
         progressBar.setProgress(100);
@@ -48,9 +48,6 @@ public class RoundTimerActivity extends AppCompatActivity {
         releaseMP();
         if (running) {
             running = false;
-            if (mp != null) {
-                mp.release();
-            }
         }
     }
 
@@ -70,7 +67,7 @@ public class RoundTimerActivity extends AppCompatActivity {
         TextView topTimerView = findViewById(R.id.timerTopLogo);
         TextView mainTimerView = findViewById(R.id.mainTimerView);
         timerID = 2;
-        topTimerView.setText("Round " + Integer.toString(currentRound) + "/" + Integer.toString(rounds));
+        topTimerView.setText("ROUND " + Integer.toString(currentRound) + "/" + Integer.toString(rounds));
         int minutes = (roundTime / 1000) / 60;
         int secs = roundTime / 1000 % 60;
         String time = String.format(Locale.getDefault(),
