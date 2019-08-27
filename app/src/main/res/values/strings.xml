@@ -7,15 +7,15 @@
     <string name="main_screen_rest">REST</string>
     <string name="main_screen_rounds">ROUNDS</string>
     <string name="main_screen_preparation">PREPARATION</string>
-    <string name="main_screen_start">Start</string>
+    <string name="main_screen_start">START</string>
 
     <string name="exit_title">Do you really want to exit?</string>
     <string name="exit_message">The timer will stop</string>
     <string name="exit_negative_answer">No, stay here</string>
     <string name="exit_positive_answer">Yes, exit</string>
 
-    <string name="save_title">Save this as default settings?</string>
-    <string name="save_message">It will be loaded on the next start</string>
+    <string name="save_title">Save settings?</string>
+    <string name="save_message">They will be loaded on the next app launch</string>
     <string name="save_negative_answer">No</string>
     <string name="save_positive_answer">Yes</string>
     <string name="saved_toast">Settings were saved</string>
@@ -25,6 +25,6 @@
     <string name="reset_positive_answer">Yes</string>
     <string name="reset_toast">Settings were reset to default</string>
 
-    <string name="error_toast">Oops... Timer error</string>
+    <string name="error_toast">Oops&#8230; Timer error</string>
 
 </resources>
